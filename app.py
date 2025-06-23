@@ -19,7 +19,7 @@ def require_api_key(func):
 
 
 @app.route("/broker/extrair_bearer", methods=["GET"])
-# @require_api_key
+@require_api_key
 def extrair_bearer():
 
     try:
