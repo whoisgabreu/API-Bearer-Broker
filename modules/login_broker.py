@@ -28,8 +28,8 @@ class ProjetoBroker():
         self.options = webdriver.ChromeOptions()
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--ignore-certificate-errors")
-        self.options.add_argument("--timeout=120")
-        # self.options.add_argument("--headless=new")
+        # self.options.add_argument("--timeout=120")
+        self.options.add_argument("--headless=new")
         self.options.add_argument("--window-position=0,0")
         self.options.add_argument("--window-size=800,600")
 
