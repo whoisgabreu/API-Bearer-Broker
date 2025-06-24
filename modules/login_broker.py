@@ -46,7 +46,15 @@ class ProjetoBroker():
         # user_data_dir = os.path.join(os.path.expanduser("~"), "AppData", "Local", "Google", "Chrome", "User Data", "Projetos Matriz")
         user_data_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data")
         self.temp_profile = tempfile.mkdtemp()
-        shutil.copytree(user_data_dir, self.temp_profile, dirs_exist_ok=True)
+        ignore_files = shutil.ignore_patterns(
+            "Singleton*",         # Arquivos de lock
+            "lockfile",           # Lockfile do Chrome
+            "DevToolsActivePort", # Porta do DevTools
+            "Crashpad",           # Dados de crash
+            "Cache",              # Cache (opcional, depende do seu uso)
+            "Code Cache"          # Opcional
+        )
+        shutil.copytree(user_data_dir, self.temp_profile, dirs_exist_ok=True, ignore = ignore_files)
         self.options.add_argument(f"--user-data-dir={self.temp_profile}")
         self.options.add_argument(f"--profile-directory=Default")
         self.options.add_argument("--disable-notifications")
