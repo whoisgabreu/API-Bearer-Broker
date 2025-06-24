@@ -132,25 +132,6 @@ class ProjetoBroker:
         # print(os.path.dirname(self.temp_default))
         # print(os.path.basename(self.temp_default))
 
-
-    def _preparar_temp_profile(self):
-        destino_default = os.path.join(self.temp_profile, "Default")
-        os.makedirs(destino_default, exist_ok=True)
-
-        # Copiar arquivos individuais (cookies, login, etc)
-        for arquivo in self.arquivos:
-            origem = os.path.join(self.base_profile, arquivo)
-            destino = os.path.join(destino_default, arquivo)
-            if os.path.exists(origem):
-                shutil.copy2(origem, destino)
-
-        # Copiar pastas (Local Storage, Network, Sessions)
-        for pasta in self.pastas:
-            origem = os.path.join(self.base_profile, pasta)
-            destino = os.path.join(destino_default, pasta)
-            if os.path.exists(origem):
-                shutil.copytree(origem, destino, dirs_exist_ok=True)
-
     def iniciar_driver(self):
         driver = webdriver.Chrome(service=Service(), options=self.options)
         return driver
@@ -186,6 +167,7 @@ class ProjetoBroker:
 
                         driver.switch_to.default_content()
                         sleep(5)
+                        breakpoint()
                     except Exception as e:
                         print(f"Erro ao realizar login: {e}")
 
