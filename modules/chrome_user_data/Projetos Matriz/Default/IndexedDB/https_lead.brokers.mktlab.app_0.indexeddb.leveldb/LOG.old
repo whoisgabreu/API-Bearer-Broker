@@ -1,14 +1,14 @@
-2025/06/23-18:17:14.164 a0b8 Reusing MANIFEST c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Projetos Matriz\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/MANIFEST-000001
-2025/06/23-18:17:14.164 a0b8 Recovering log #49
-2025/06/23-18:17:14.164 a0b8 Reusing old log c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Projetos Matriz\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/000049.log 
-2025/06/23-18:17:14.165 a0b8 Delete type=2 #47
-2025/06/23-18:17:14.195 c6e0 Level-0 table #54: started
-2025/06/23-18:17:14.196 c6e0 Level-0 table #54: 652 bytes OK
-2025/06/23-18:17:14.197 c6e0 Delete type=0 #49
-2025/06/23-18:17:14.197 a0b8 Manual compaction at level-0 from '\x00\x0f\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x10\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0f\x00\x00\x05' @ 318 : 1
-2025/06/23-18:17:14.198 a0b8 Compacting 1@0 + 1@1 files
-2025/06/23-18:17:14.199 a0b8 Generated table #55@0: 33 keys, 1097 bytes
-2025/06/23-18:17:14.199 a0b8 Compacted 1@0 + 1@1 files => 1097 bytes
-2025/06/23-18:17:14.200 a0b8 compacted to: files[ 0 1 1 0 0 0 0 ]
-2025/06/23-18:17:14.201 a0b8 Delete type=2 #54
-2025/06/23-18:17:14.201 a0b8 Manual compaction at level-0 from '\x00\x0f\x00\x00\x05' @ 318 : 1 .. '\x00\x10\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/06/23-18:17:24.360 d114 Reusing MANIFEST c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Projetos Matriz\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/MANIFEST-000001
+2025/06/23-18:17:24.360 d114 Recovering log #53
+2025/06/23-18:17:24.360 d114 Reusing old log c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Projetos Matriz\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/000053.log 
+2025/06/23-18:17:24.361 d114 Delete type=2 #51
+2025/06/23-18:17:24.364 73f8 Level-0 table #58: started
+2025/06/23-18:17:24.365 73f8 Level-0 table #58: 673 bytes OK
+2025/06/23-18:17:24.366 73f8 Delete type=0 #53
+2025/06/23-18:17:24.367 d114 Manual compaction at level-0 from '\x00\x10\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x11\x00\x00\x00' @ 0 : 0; will stop at '\x00\x10\x00\x00\x05' @ 337 : 1
+2025/06/23-18:17:24.367 d114 Compacting 1@0 + 1@1 files
+2025/06/23-18:17:24.368 d114 Generated table #59@0: 33 keys, 1096 bytes
+2025/06/23-18:17:24.368 d114 Compacted 1@0 + 1@1 files => 1096 bytes
+2025/06/23-18:17:24.368 d114 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/06/23-18:17:24.368 d114 Delete type=2 #58
+2025/06/23-18:17:24.368 d114 Manual compaction at level-0 from '\x00\x10\x00\x00\x05' @ 337 : 1 .. '\x00\x11\x00\x00\x00' @ 0 : 0; will stop at (end)

@@ -8,7 +8,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service
 import os
 from time import sleep
-import threading
+from threading import Lock
 import json
 
 # from modules.get_razao_social import search_name
@@ -18,7 +18,7 @@ class ProjetoBroker():
 
     def __init__(self):
 
-        self.selenium_lock = threading.Lock
+        self.selenium_lock = Lock()
 
         self.userData = None
         self.authToken = None
