@@ -123,10 +123,14 @@ class ProjetoBroker:
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--disable-notifications")
         self.options.add_argument("--window-size=800,600")
-        self.options.add_argument(f'--user-data-dir={os.path.dirname(self.temp_default)}')
-        self.options.add_argument(f'--profile-directory={os.path.basename(self.temp_default)}')  # Isso garante que use a nova Default_Temp_X
-        print(os.path.dirname(self.temp_default))
-        print(os.path.basename(self.temp_default))
+        # self.options.add_argument(f'--user-data-dir={os.path.dirname(self.temp_default)}')
+        # self.options.add_argument(f'--profile-directory={os.path.basename(self.temp_default)}')  # Isso garante que use a nova Default_Temp_X
+
+        self.options.add_argument(f'--user-data-dir={base_dir}')
+        self.options.add_argument(f'--profile-directory=Default')  # Isso garante que use a nova Default_Temp_X
+
+        # print(os.path.dirname(self.temp_default))
+        # print(os.path.basename(self.temp_default))
 
 
     def _preparar_temp_profile(self):
