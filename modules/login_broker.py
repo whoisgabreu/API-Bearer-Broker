@@ -28,8 +28,8 @@ class ProjetoBroker():
         self.options = webdriver.ChromeOptions()
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--ignore-certificate-errors")
-        # self.options.add_argument("--timeout=120")
-        self.options.add_argument("--headless=new")
+        self.options.add_argument("--timeout=120")
+        # self.options.add_argument("--headless=new")
         self.options.add_argument("--window-position=0,0")
         self.options.add_argument("--window-size=800,600")
 
@@ -44,7 +44,7 @@ class ProjetoBroker():
                 }
         self.options.add_experimental_option("prefs",prefs)
         # user_data_dir = os.path.join(os.path.expanduser("~"), "AppData", "Local", "Google", "Chrome", "User Data", "Projetos Matriz")
-        user_data_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data", "Projetos Matriz")
+        user_data_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data")
         self.temp_profile = tempfile.mkdtemp()
         shutil.copytree(user_data_dir, self.temp_profile, dirs_exist_ok=True)
         self.options.add_argument(f"--user-data-dir={self.temp_profile}")
@@ -85,7 +85,6 @@ class ProjetoBroker():
                 sleep(5)
 
                 # cookies = self.driver.get_cookies()
-
                 # self.driver.quit()
                 # return f"Bearer {cookies[0]["value"]}"
 
