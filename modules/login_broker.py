@@ -49,50 +49,46 @@ class ProjetoBroker():
         self.options.add_argument(f"--profile-directory=Default")
         self.options.add_argument("--disable-notifications")
 
-    def iniciar_driver(self):
-        self.driver = webdriver.Chrome(service=Service(), options=self.options)
-        return self.driver
-
-
-    def extrair_bearer(self, driver):
+    def extrair_bearer(self):
         
         with self.selenium_lock:
 
-            driver.get(self.url)
-            self.action_chain = ActionChains(driver)
+            self.driver = webdriver.Chrome(service=Service(), options=self.options)
+            self.driver.get(self.url)
+            self.action_chain = ActionChains(self.driver)
             while True:
 
                 sleep(3)
 
-                if driver.current_url == self.url:
+                if self.driver.current_url == self.url:
 
-                    driver.find_element(By.TAG_NAME, "iframe").click()
+                    self.driver.find_element(By.TAG_NAME, "iframe").click()
                     
-                    for handle in driver.window_handles:
-                        driver.switch_to.window(handle)
-                        if "Fazer login nas Contas do Google" in driver.title:
+                    for handle in self.driver.window_handles:
+                        self.driver.switch_to.window(handle)
+                        if "Fazer login nas Contas do Google" in self.driver.title:
                             break
 
 
-                    driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+                    self.driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
                     sleep(1)
-                    driver.find_elements(By.TAG_NAME, "button")[3].click()
-                    sleep(1)
-
-                    driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
-                    sleep(1)
-                    driver.find_elements(By.TAG_NAME, "button")[3].click()
+                    self.driver.find_elements(By.TAG_NAME, "button")[3].click()
                     sleep(1)
 
-                    driver.switch_to.default_content()
+                    self.driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+                    sleep(1)
+                    self.driver.find_elements(By.TAG_NAME, "button")[3].click()
+                    sleep(1)
+
+                    self.driver.switch_to.default_content()
                     sleep(5)
 
-                    cookies = driver.get_cookies()
+                    cookies = self.driver.get_cookies()
 
-                    driver.quit()
+                    self.driver.quit()
                     return f"Bearer {cookies[0]["value"]}"
 
                 else:
-                    cookies = driver.get_cookies()
-                    driver.quit()
+                    cookies = self.driver.get_cookies()
+                    self.driver.quit()
                     return f"Bearer {cookies[0]["value"]}"

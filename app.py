@@ -6,8 +6,6 @@ app = Flask(__name__)
 # LITERALMENTE "gabrielbucetinha123"
 API_KEY = "ccf9d74a30dc58035c50d1d0cb19dd20"
 
-chrome_driver = ProjetoBroker().iniciar_driver()
-
 def require_api_key(func):
     def wrapper(*args, **kwargs):
         key = request.headers.get("X-API-KEY")
@@ -26,7 +24,7 @@ def extrair_bearer():
 
     try:
         
-        bearer = ProjetoBroker().extrair_bearer(chrome_driver)
+        bearer = ProjetoBroker().extrair_bearer()
 
         return jsonify({
             "broker_bearer": bearer
