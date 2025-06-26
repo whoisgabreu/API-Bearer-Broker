@@ -118,7 +118,7 @@ class ProjetoBroker:
 
         # Configuração do Selenium
         self.options = webdriver.ChromeOptions()
-        self.options.add_argument("--headless=new")
+        # self.options.add_argument("--headless=new")
         self.options.add_argument("--no-sandbox")
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--disable-notifications")
@@ -154,7 +154,7 @@ class ProjetoBroker:
                             driver.switch_to.window(handle)
                             if "Fazer login nas Contas do Google" in driver.title:
                                 break
-
+                        breakpoint()
                         driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
                         sleep(1)
                         driver.find_elements(By.TAG_NAME, "button")[3].click()
@@ -167,7 +167,6 @@ class ProjetoBroker:
 
                         driver.switch_to.default_content()
                         sleep(5)
-                        breakpoint()
                     except Exception as e:
                         print(f"Erro ao realizar login: {e}")
 
