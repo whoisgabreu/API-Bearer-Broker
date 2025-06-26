@@ -154,7 +154,6 @@ class ProjetoBroker:
                             driver.switch_to.window(handle)
                             if "Fazer login nas Contas do Google" in driver.title:
                                 break
-                        breakpoint()
                         driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
                         sleep(1)
                         driver.find_elements(By.TAG_NAME, "button")[3].click()
