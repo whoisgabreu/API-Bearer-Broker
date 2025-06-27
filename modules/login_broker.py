@@ -193,7 +193,7 @@ class ProjetoBroker:
             url = 'https://lead.brokers.mktlab.app/'
             driver.get(url)
             sleep(3)
-
+            breakpoint()
             try:
                 if driver.current_url == url:
                     # Tentativa de login via iframe
@@ -216,8 +216,6 @@ class ProjetoBroker:
 
                     driver.switch_to.default_content()
                     sleep(5)
-
-                    breakpoint()
 
             except Exception as e:
                 print(f"Erro ao realizar login: {e}")
