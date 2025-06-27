@@ -200,7 +200,10 @@ class ProjetoBroker:
                     sleep(3)
                     # logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
 
+
+                    driver.switch_to.frame("iframe")
                     print(driver.find_element(By.CLASS_NAME, "L6cTce").text)
+                    driver.switch_to.default_content()
 
                     driver.find_element(By.TAG_NAME, "iframe").click()
 
