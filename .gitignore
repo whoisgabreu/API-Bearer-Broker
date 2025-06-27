@@ -1,4 +1,5 @@
 venv/
 venv
 .venv
-modules\chrome_user_data
+modules/*
+!modules/login_broker.py
