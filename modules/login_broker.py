@@ -197,6 +197,7 @@ class ProjetoBroker:
             try:
                 if driver.current_url == url:
                     # Tentativa de login via iframe
+                    sleep(3)
                     logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
 
                     driver.find_element(By.TAG_NAME, "iframe").click()
