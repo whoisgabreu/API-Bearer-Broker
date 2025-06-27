@@ -166,6 +166,8 @@ class ProjetoBroker:
 
                         driver.switch_to.default_content()
                         sleep(5)
+
+                        breakpoint()
                     except Exception as e:
                         print(f"Erro ao realizar login: {e}")
 

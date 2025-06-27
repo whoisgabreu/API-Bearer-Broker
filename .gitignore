@@ -1,4 +1,4 @@
 venv/
 venv
 .venv
-modules/chrome_user_data/
+modules\chrome_user_data
