@@ -1,0 +1,6 @@
+[17596:20292:0627/135710.769:INFO:components\enterprise\browser\controller\chrome_browser_cloud_management_controller.cc:202] No machine level policy manager exists.
+[17596:20292:0627/135712.133:INFO:CONSOLE:1] "An error occurred while retrieving token: ReferenceError: Notification is not defined", source: https://lead.brokers.mktlab.app/_next/static/chunks/865-64fe10c61b39bb2a.js (1)
+[17596:20292:0627/135712.152:INFO:CONSOLE:1] "Uncaught (in promise) FirebaseError: Messaging: This browser doesn't support the API's required to use the Firebase SDK. (messaging/unsupported-browser).", source: https://lead.brokers.mktlab.app/_next/static/chunks/55-370255ef4b6c1adc.js (1)
+[17596:21724:0627/135714.609:ERROR:google_apis\gcm\engine\registration_request.cc:291] Registration response error message: DEPRECATED_ENDPOINT
+[23896:23524:0627/135714.827:WARNING:net\extras\sqlite\sqlite_persistent_store_backend_base.cc:176] Failed to post task from FlushAndNotifyInBackground@net\extras\sqlite\sqlite_persistent_store_backend_base.cc:226 to client_task_runner_.
+[23896:23524:0627/135714.827:WARNING:net\extras\sqlite\sqlite_persistent_store_backend_base.cc:176] Failed to post task from FlushAndNotifyInBackground@net\extras\sqlite\sqlite_persistent_store_backend_base.cc:226 to client_task_runner_.

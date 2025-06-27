@@ -1,0 +1,14 @@
+2025/06/27-13:48:36.732 3834 Reusing MANIFEST c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/MANIFEST-000001
+2025/06/27-13:48:36.733 3834 Recovering log #36
+2025/06/27-13:48:36.734 3834 Reusing old log c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/000036.log 
+2025/06/27-13:48:36.734 3834 Delete type=2 #34
+2025/06/27-13:48:36.740 3834 Level-0 table #41: started
+2025/06/27-13:48:36.741 3834 Level-0 table #41: 664 bytes OK
+2025/06/27-13:48:36.742 3834 Delete type=0 #36
+2025/06/27-13:48:36.743 3834 Manual compaction at level-0 from '\x00\x0e\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x0f\x00\x00\x00' @ 0 : 0; will stop at '\x00\x0e\x00\x00\x05' @ 299 : 1
+2025/06/27-13:48:36.743 3834 Compacting 1@0 + 1@1 files
+2025/06/27-13:48:36.745 3834 Generated table #42@0: 33 keys, 1096 bytes
+2025/06/27-13:48:36.745 3834 Compacted 1@0 + 1@1 files => 1096 bytes
+2025/06/27-13:48:36.745 3834 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/06/27-13:48:36.746 3834 Delete type=2 #41
+2025/06/27-13:48:36.747 3834 Manual compaction at level-0 from '\x00\x0e\x00\x00\x05' @ 299 : 1 .. '\x00\x0f\x00\x00\x00' @ 0 : 0; will stop at (end)

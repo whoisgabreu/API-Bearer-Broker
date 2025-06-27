@@ -1,0 +1,25 @@
+2025/06/27-13:55:00.406 377c Reusing MANIFEST c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/MANIFEST-000001
+2025/06/27-13:55:00.406 377c Recovering log #56
+2025/06/27-13:55:00.407 377c Reusing old log c:\Users\glam-\OneDrive\Documentos\Projetos\ProjetosV4\Projeto Broker\modules\chrome_user_data\Default\IndexedDB\https_lead.brokers.mktlab.app_0.indexeddb.leveldb/000056.log 
+2025/06/27-13:55:00.407 377c Delete type=2 #54
+2025/06/27-13:55:00.432 2280 Level-0 table #61: started
+2025/06/27-13:55:00.434 2280 Level-0 table #61: 652 bytes OK
+2025/06/27-13:55:00.435 2280 Delete type=0 #56
+2025/06/27-13:55:00.436 2280 Manual compaction at level-0 from '\x00\x14\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at '\x00\x14\x00\x00\x05' @ 413 : 1
+2025/06/27-13:55:00.436 2280 Compacting 1@0 + 1@1 files
+2025/06/27-13:55:00.438 2280 Generated table #62@0: 33 keys, 1101 bytes
+2025/06/27-13:55:00.438 2280 Compacted 1@0 + 1@1 files => 1101 bytes
+2025/06/27-13:55:00.438 2280 compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/06/27-13:55:00.439 2280 Delete type=2 #61
+2025/06/27-13:55:00.439 377c Manual compaction at level-0 from '\x00\x14\x00\x00\x05' @ 413 : 1 .. '\x00\x15\x00\x00\x00' @ 0 : 0; will stop at (end)
+2025/06/27-13:55:12.150 377c Level-0 table #64: started
+2025/06/27-13:55:12.155 377c Level-0 table #64: 679 bytes OK
+2025/06/27-13:55:12.157 377c Delete type=2 #58
+2025/06/27-13:55:12.157 377c Delete type=0 #60
+2025/06/27-13:55:12.159 377c Manual compaction at level-0 from '\x00\x15\x00\x00\x00' @ 72057594037927935 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at '\x00\x15\x00\x00\x05' @ 432 : 1
+2025/06/27-13:55:12.159 377c Compacting 1@0 + 1@1 files
+2025/06/27-13:55:12.164 377c Generated table #65@0: 33 keys, 1099 bytes
+2025/06/27-13:55:12.164 377c Compacted 1@0 + 1@1 files => 1099 bytes
+2025/06/27-13:55:12.165 377c compacted to: files[ 0 1 1 0 0 0 0 ]
+2025/06/27-13:55:12.167 377c Delete type=2 #64
+2025/06/27-13:55:12.168 377c Manual compaction at level-0 from '\x00\x15\x00\x00\x05' @ 432 : 1 .. '\x00\x16\x00\x00\x00' @ 0 : 0; will stop at (end)
