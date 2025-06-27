@@ -199,23 +199,31 @@ class ProjetoBroker:
                     # Tentativa de login via iframe
                     driver.find_element(By.TAG_NAME, "iframe").click()
 
+                    logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
+
                     for handle in driver.window_handles:
                         driver.switch_to.window(handle)
                         if "Fazer login nas Contas do Google" in driver.title:
                             break
 
-                    driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
-                    sleep(1)
-                    driver.find_elements(By.TAG_NAME, "button")[3].click()
-                    sleep(1)
+                    if logado:
+                        breakpoint()
+                        driver.execute_script("""document.querySelector(`.yAlK0b`).click()""")
+                    
+                    else:
 
-                    driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
-                    sleep(1)
-                    driver.find_elements(By.TAG_NAME, "button")[3].click()
-                    sleep(1)
+                        driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+                        sleep(1)
+                        driver.find_elements(By.TAG_NAME, "button")[3].click()
+                        sleep(1)
 
-                    driver.switch_to.default_content()
-                    sleep(5)
+                        driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+                        sleep(1)
+                        driver.find_elements(By.TAG_NAME, "button")[3].click()
+                        sleep(1)
+
+                        driver.switch_to.default_content()
+                        sleep(5)
 
             except Exception as e:
                 print(f"Erro ao realizar login: {e}")
