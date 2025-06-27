@@ -198,7 +198,9 @@ class ProjetoBroker:
                 if driver.current_url == url:
                     # Tentativa de login via iframe
                     sleep(3)
-                    logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
+                    # logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
+
+                    print(driver.find_element(By.CLASS_NAME, "L6cTce").text)
 
                     driver.find_element(By.TAG_NAME, "iframe").click()
 
@@ -208,11 +210,11 @@ class ProjetoBroker:
                         if "Fazer login nas Contas do Google" in driver.title:
                             break
 
-                    if logado:
-                        print("ta logado")
-                        breakpoint()
+                    # if logado:
+                    #     print("ta logado")
+                    #     breakpoint()
 
-                        driver.execute_script("""document.querySelector(`.yAlK0b`).click()""")
+                    #     driver.execute_script("""document.querySelector(`.yAlK0b`).click()""")
                     
                     else:
 
