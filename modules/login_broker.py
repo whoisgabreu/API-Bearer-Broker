@@ -197,9 +197,10 @@ class ProjetoBroker:
             try:
                 if driver.current_url == url:
                     # Tentativa de login via iframe
+                    logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
+
                     driver.find_element(By.TAG_NAME, "iframe").click()
 
-                    logado = driver.execute_script("""return document.querySelector(`.L6cTce`).textContent.includes(`martins.gabriel`)""")
 
                     for handle in driver.window_handles:
                         driver.switch_to.window(handle)
@@ -207,7 +208,9 @@ class ProjetoBroker:
                             break
 
                     if logado:
+                        print("ta logado")
                         breakpoint()
+
                         driver.execute_script("""document.querySelector(`.yAlK0b`).click()""")
                     
                     else:
