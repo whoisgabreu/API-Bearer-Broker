@@ -136,52 +136,98 @@ class ProjetoBroker:
         driver = webdriver.Chrome(service=Service(), options=self.options)
         return driver
 
-    def extrair_bearer(self):
-        driver = self.iniciar_driver()
+    # def extrair_bearer(self):
+    #     driver = self.iniciar_driver()
+    #     try:
+    #         url = 'https://lead.brokers.mktlab.app/'
+    #         driver.get(url)
+    #         action_chain = ActionChains(driver)
+
+    #         while True:
+    #             sleep(3)
+
+    #             if driver.current_url == url:
+    #                 try:
+    #                     driver.find_element(By.TAG_NAME, "iframe").click()
+
+    #                     for handle in driver.window_handles:
+    #                         driver.switch_to.window(handle)
+    #                         if "Fazer login nas Contas do Google" in driver.title:
+    #                             break
+    #                     driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+    #                     sleep(1)
+    #                     driver.find_elements(By.TAG_NAME, "button")[3].click()
+    #                     sleep(1)
+
+    #                     driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+    #                     sleep(1)
+    #                     driver.find_elements(By.TAG_NAME, "button")[3].click()
+    #                     sleep(1)
+
+    #                     driver.switch_to.default_content()
+    #                     sleep(5)
+
+    #                     breakpoint()
+    #                 except Exception as e:
+    #                     print(f"Erro ao realizar login: {e}")
+
+    #                 # Captura dos cookies
+    #                 cookies = driver.get_cookies()
+    #                 if cookies:
+    #                     return f"Bearer {cookies[0]['value']}"
+
+    #             else:
+    #                 cookies = driver.get_cookies()
+    #                 if cookies:
+    #                     return f"Bearer {cookies[0]['value']}"
+
+    #     finally:
+    #         driver.quit()
+    #         print(self.temp_default)
+    #         shutil.rmtree(self.temp_default, ignore_errors=True)
+
+
+def extrair_bearer(self):
+    driver = self.iniciar_driver()
+    try:
+        url = 'https://lead.brokers.mktlab.app/'
+        driver.get(url)
+        sleep(3)
+
         try:
-            url = 'https://lead.brokers.mktlab.app/'
-            driver.get(url)
-            action_chain = ActionChains(driver)
+            if driver.current_url == url:
+                # Tentativa de login via iframe
+                driver.find_element(By.TAG_NAME, "iframe").click()
 
-            while True:
-                sleep(3)
+                for handle in driver.window_handles:
+                    driver.switch_to.window(handle)
+                    if "Fazer login nas Contas do Google" in driver.title:
+                        break
 
-                if driver.current_url == url:
-                    try:
-                        driver.find_element(By.TAG_NAME, "iframe").click()
+                driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+                sleep(1)
+                driver.find_elements(By.TAG_NAME, "button")[3].click()
+                sleep(1)
 
-                        for handle in driver.window_handles:
-                            driver.switch_to.window(handle)
-                            if "Fazer login nas Contas do Google" in driver.title:
-                                break
-                        driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
-                        sleep(1)
-                        driver.find_elements(By.TAG_NAME, "button")[3].click()
-                        sleep(1)
+                driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+                sleep(1)
+                driver.find_elements(By.TAG_NAME, "button")[3].click()
+                sleep(1)
 
-                        driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
-                        sleep(1)
-                        driver.find_elements(By.TAG_NAME, "button")[3].click()
-                        sleep(1)
+                driver.switch_to.default_content()
+                sleep(5)
 
-                        driver.switch_to.default_content()
-                        sleep(5)
+                breakpoint()
 
-                        breakpoint()
-                    except Exception as e:
-                        print(f"Erro ao realizar login: {e}")
+        except Exception as e:
+            print(f"Erro ao realizar login: {e}")
 
-                    # Captura dos cookies
-                    cookies = driver.get_cookies()
-                    if cookies:
-                        return f"Bearer {cookies[0]['value']}"
+        # Captura dos cookies (após tentativa de login ou se já logado)
+        cookies = driver.get_cookies()
+        if cookies:
+            return f"Bearer {cookies[0]['value']}"
 
-                else:
-                    cookies = driver.get_cookies()
-                    if cookies:
-                        return f"Bearer {cookies[0]['value']}"
-
-        finally:
-            driver.quit()
-            print(self.temp_default)
-            shutil.rmtree(self.temp_default, ignore_errors=True)
+    finally:
+        driver.quit()
+        print(self.temp_default)
+        shutil.rmtree(self.temp_default, ignore_errors=True)
