@@ -187,47 +187,47 @@ class ProjetoBroker:
     #         shutil.rmtree(self.temp_default, ignore_errors=True)
 
 
-def extrair_bearer(self):
-    driver = self.iniciar_driver()
-    try:
-        url = 'https://lead.brokers.mktlab.app/'
-        driver.get(url)
-        sleep(3)
-
+    def extrair_bearer(self):
+        driver = self.iniciar_driver()
         try:
-            if driver.current_url == url:
-                # Tentativa de login via iframe
-                driver.find_element(By.TAG_NAME, "iframe").click()
+            url = 'https://lead.brokers.mktlab.app/'
+            driver.get(url)
+            sleep(3)
 
-                for handle in driver.window_handles:
-                    driver.switch_to.window(handle)
-                    if "Fazer login nas Contas do Google" in driver.title:
-                        break
+            try:
+                if driver.current_url == url:
+                    # Tentativa de login via iframe
+                    driver.find_element(By.TAG_NAME, "iframe").click()
 
-                driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
-                sleep(1)
-                driver.find_elements(By.TAG_NAME, "button")[3].click()
-                sleep(1)
+                    for handle in driver.window_handles:
+                        driver.switch_to.window(handle)
+                        if "Fazer login nas Contas do Google" in driver.title:
+                            break
 
-                driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
-                sleep(1)
-                driver.find_elements(By.TAG_NAME, "button")[3].click()
-                sleep(1)
+                    driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+                    sleep(1)
+                    driver.find_elements(By.TAG_NAME, "button")[3].click()
+                    sleep(1)
 
-                driver.switch_to.default_content()
-                sleep(5)
+                    driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+                    sleep(1)
+                    driver.find_elements(By.TAG_NAME, "button")[3].click()
+                    sleep(1)
 
-                breakpoint()
+                    driver.switch_to.default_content()
+                    sleep(5)
 
-        except Exception as e:
-            print(f"Erro ao realizar login: {e}")
+                    breakpoint()
 
-        # Captura dos cookies (após tentativa de login ou se já logado)
-        cookies = driver.get_cookies()
-        if cookies:
-            return f"Bearer {cookies[0]['value']}"
+            except Exception as e:
+                print(f"Erro ao realizar login: {e}")
 
-    finally:
-        driver.quit()
-        print(self.temp_default)
-        shutil.rmtree(self.temp_default, ignore_errors=True)
+            # Captura dos cookies (após tentativa de login ou se já logado)
+            cookies = driver.get_cookies()
+            if cookies:
+                return f"Bearer {cookies[0]['value']}"
+
+        finally:
+            driver.quit()
+            print(self.temp_default)
+            shutil.rmtree(self.temp_default, ignore_errors=True)
