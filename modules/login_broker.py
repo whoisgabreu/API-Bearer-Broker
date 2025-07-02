@@ -65,7 +65,7 @@ class ProjetoBroker:
 
                     trocar_janela(driver, "Fazer login nas Contas do Google")
                     
-                    logado = False if driver.find_element(By.TAG_NAME, "h1").text == "Fazer login" else True
+                    logado = False if driver.find_element(By.TAG_NAME, "h1").text in ["Fazer login","Sign in"] else True
                     print(logado)
                     if logado:
                         actionChains.send_keys(Keys.TAB)
