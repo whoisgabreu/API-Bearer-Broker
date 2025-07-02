@@ -57,7 +57,7 @@ class ProjetoBroker:
             url = 'https://lead.brokers.mktlab.app/'
             driver.get(url)
             sleep(3)
-
+            breakpoint()
             try:
                 if driver.current_url == url:
 
