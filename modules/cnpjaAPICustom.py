@@ -9,7 +9,7 @@ class CnpjaCustomAPI:
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
         }
         # 5 requests por minuto = 5 req/60s
-        self.limiter = AsyncLimiter(max_rate=5, time_period=60)
+        self.limiter = AsyncLimiter(max_rate=3, time_period=60)
 
     async def fetch(self, session, url):
         async with self.limiter:  # respeita limite
