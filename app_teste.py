@@ -126,12 +126,12 @@ Cargo: {role}
     """
 
     # Como telegram.Bot usa métodos assíncronos, precisamos rodar com asyncio
-    asyncio.run(bot.send_message(
+    bot.send_message(
         chat_id=CHAT_ID,
         # text=f"Nova solicitação ID: {salesforce_id}",
         text = lead_text,
         reply_markup=reply_markup
-    ))
+    )
 
     return jsonify({"status": "ok", "id": salesforce_id})
 
