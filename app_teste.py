@@ -1,95 +1,81 @@
-from flask import Flask, request, jsonify
-from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
+import os
 import uuid
 import asyncio
+from threading import Lock
+
+from dotenv import load_dotenv
+from fastapi import FastAPI, Request, HTTPException, Header, Depends, Query
+from fastapi.responses import JSONResponse
+from telegram import Bot, InlineKeyboardButton, InlineKeyboardMarkup
+
 from modules.login_broker import ProjetoBroker
-from modules.ferramentas_analise import GoogleTransparency
-from modules.ferramentas_analise import GoogleBusiness
-from modules.ferramentas_analise import DuckDuckGo
+from modules.ferramentas_analise import GoogleTransparency, GoogleBusiness, DuckDuckGo
 from modules.cnpjaAPICustom import coletar_cnpj
 from modules.cnpja_api import search
-from dotenv import load_dotenv
-import os
-from threading import Lock
-import threading
 
-app = Flask(__name__)
 load_dotenv()
 
 API_KEY = os.getenv("API_KEY")
 TOKEN = os.getenv("TOKEN")
 CHAT_ID = os.getenv("CHAT_ID")
 
-selenium_lock = Lock()  # lock global
+app = FastAPI()
+bot = Bot(token=TOKEN)
 
-def require_api_key(func):
-    def wrapper(*args, **kwargs):
-        key = request.headers.get("X-API-KEY")
-        if key != API_KEY:
-            return jsonify({"error": "Unauthorized"}), 401
-        return func(*args, **kwargs)
-    wrapper.__name__ = func.__name__
-    return wrapper
+selenium_lock = Lock()
 
-@app.route("/analise/presenca-online", methods=["GET"])
-@require_api_key
-def presenca_online():
+# Middleware de autenticação por header
+async def verify_api_key(x_api_key: str = Header(...)):
+    if x_api_key != API_KEY:
+        raise HTTPException(status_code=401, detail="Unauthorized")
 
+# --- Endpoints ---
+
+@app.get("/analise/presenca-online")
+async def presenca_online(
+    cnpj: str = Query(...),
+    _: str = Depends(verify_api_key)
+):
     try:
-        cnpj = request.args.get("cnpj")
-        business_info = search(cnpj = cnpj)
+        business_info = search(cnpj=cnpj)
         business_info = GoogleTransparency().analyse(business_info)
-        # business_info = GoogleBusiness().analyse(business_info) # Reativar quanto corrigir o problema
-        business_info["paginas_online"] = []
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], ".br"))
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "instagram.com"))
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "facebook.com"))
-
-        return jsonify(business_info)
-    
+        # business_info = GoogleBusiness().analyse(business_info)  # Reativar se necessário
+        business_info["paginas_online"] = [
+            DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], ".br"),
+            DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "instagram.com"),
+            DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "facebook.com"),
+        ]
+        return JSONResponse(content=business_info)
     except Exception as e:
+        return JSONResponse(status_code=400, content={"erro": str(e)})
 
-        return jsonify(
-            {
-                "erro": f"{e}"
-            }
-        ), 400
-    
-@app.route("/analise/coletar-cnpj", methods=["GET"])
-@require_api_key
-def coletar_cnp_APIj():
-
+@app.get("/analise/coletar-cnpj")
+async def coletar_cnpj_api(
+    socio: str = Query(...),
+    alias: str = Query(...),
+    _: str = Depends(verify_api_key)
+):
     try:
-        nome_socio = request.args.get("socio")
-        nome_fantasia = request.args.get("alias")
-
-        dados_empresa = coletar_cnpj(nome_socio, nome_fantasia)
-
-        return jsonify(dados_empresa)
-    
+        dados_empresa = coletar_cnpj(socio, alias)
+        return JSONResponse(content=dados_empresa)
     except Exception as e:
+        return JSONResponse(status_code=400, content={"erro": str(e)})
 
-        return jsonify(
-            {
-                "erro": f"{e}"
-            }
-        ), 400
-
-@app.route("/broker/extrair_bearer", methods=["GET"])
-@require_api_key
-def extrair_bearer():
+@app.get("/broker/extrair_bearer")
+async def extrair_bearer(_: str = Depends(verify_api_key)):
     with selenium_lock:
         try:
             bearer = ProjetoBroker().extrair_bearer()
-            return jsonify({"broker_bearer": bearer})
+            return JSONResponse(content={"broker_bearer": bearer})
         except Exception as e:
-            return jsonify({"erro": str(e)}), 400
+            return JSONResponse(status_code=400, content={"erro": str(e)})
 
-
-bot = Bot(token=TOKEN)
-@app.route("/telegram/send", methods=["POST"])
-def send_message():
-    data = request.get_json()
+@app.post("/telegram/send")
+async def send_message(
+    request: Request,
+    _: str = Depends(verify_api_key)
+):
+    data = await request.json()
     salesforce_id = data.get("id") or str(uuid.uuid4())[:8]
     value = data.get("value")
     alias = data.get("alias")
@@ -124,19 +110,11 @@ Nome Sócio: {person}
 Cargo: {role}
     """
 
-    # Função assíncrona em thread separada
-    def send_async():
-        asyncio.run(bot.send_message(
-            chat_id=CHAT_ID,
-            text=lead_text,
-            reply_markup=reply_markup
-        ))
+    # Agora é assíncrono de forma nativa!
+    await bot.send_message(
+        chat_id=CHAT_ID,
+        text=lead_text,
+        reply_markup=reply_markup
+    )
 
-    # Dispara thread sem bloquear a requisição
-    threading.Thread(target=send_async).start()
-
-    return jsonify({"status": "ok", "id": salesforce_id})
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000)
+    return {"status": "ok", "id": salesforce_id}
