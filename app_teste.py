@@ -56,7 +56,7 @@ async def coletar_cnpj_api(
     _: str = Depends(verify_api_key)
 ):
     try:
-        dados_empresa = coletar_cnpj(socio, alias)
+        dados_empresa = await coletar_cnpj(socio, alias)
         return JSONResponse(content=dados_empresa)
     except Exception as e:
         return JSONResponse(status_code=400, content={"erro": str(e)})
