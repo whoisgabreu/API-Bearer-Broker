@@ -11,6 +11,7 @@ from modules.cnpja_api import search
 from dotenv import load_dotenv
 import os
 from threading import Lock
+import threading
 
 app = Flask(__name__)
 load_dotenv()
@@ -100,8 +101,6 @@ def send_message():
     person = data.get("person")
     role = data.get("role")
 
-
-
     keyboard = [
         [InlineKeyboardButton("Comprar", callback_data=f"buy:{salesforce_id}")],
         [InlineKeyboardButton("Não Comprar", callback_data=f"pass:{salesforce_id}")]
@@ -125,13 +124,16 @@ Nome Sócio: {person}
 Cargo: {role}
     """
 
-    # Como telegram.Bot usa métodos assíncronos, precisamos rodar com asyncio
-    bot.send_message(
-        chat_id=CHAT_ID,
-        # text=f"Nova solicitação ID: {salesforce_id}",
-        text = lead_text,
-        reply_markup=reply_markup
-    )
+    # Função assíncrona em thread separada
+    def send_async():
+        asyncio.run(bot.send_message(
+            chat_id=CHAT_ID,
+            text=lead_text,
+            reply_markup=reply_markup
+        ))
+
+    # Dispara thread sem bloquear a requisição
+    threading.Thread(target=send_async).start()
 
     return jsonify({"status": "ok", "id": salesforce_id})
 
