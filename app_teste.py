@@ -88,7 +88,7 @@ async def send_message(
     role = data.get("role")
 
     keyboard = [
-        [InlineKeyboardButton("Comprar", callback_data=f"buy:{salesforce_id}")],
+        [InlineKeyboardButton("Comprar", callback_data=f"buy:{salesforce_id}",url = "https://n8n.v4lisboatech.com.br/webhook/82c3cc86-a2ef-48e5-995e-78c20409d665")],
         [InlineKeyboardButton("Não Comprar", callback_data=f"pass:{salesforce_id}")]
     ]
     reply_markup = InlineKeyboardMarkup(keyboard)
