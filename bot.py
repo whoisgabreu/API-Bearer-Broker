@@ -1,5 +1,6 @@
 # bot.py
 import asyncio
+import aiohttp
 from telegram import Update
 from telegram.ext import (
     ApplicationBuilder,
@@ -8,7 +9,6 @@ from telegram.ext import (
 )
 from dotenv import load_dotenv
 import os
-import requests
 
 load_dotenv()
 
@@ -25,10 +25,13 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     print(f"Botão clicado: ID {message_id}")
 
     if _ == "buy":
+        async with aiohttp.ClientSession() as session:
+            async with session.get("https://n8n.v4lisboatech.com.br/webhook/82c3cc86-a2ef-48e5-995e-78c20409d665") as resp:
+                # opcional: verificar resp.status, ler resp.text() etc
+                pass
         await query.edit_message_text(
             text=f"Salesforce ID: {message_id} - Realizada Ordem de Compra ✅",
         )
-        requests.get(url = "https://n8n.v4lisboatech.com.br/webhook/82c3cc86-a2ef-48e5-995e-78c20409d665")
 
     else:
         await query.edit_message_text(
