@@ -238,8 +238,8 @@ async def criar_lista_fria(socio: str, alias: str):
             office_list = []
 
             for office in offices:
-                office_alias = office.get("alias", "").lower()
-                similaridade = checar_similaridade(alias.lower(), office_alias)
+                office_alias = office.get("alias", "")
+                similaridade = checar_similaridade(alias.lower(), office_alias.lower())
                 print(f"[DEBUG] Similaridade: {similaridade} - {office_alias}")
 
                 if similaridade < 70:
