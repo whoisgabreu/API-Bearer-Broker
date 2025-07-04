@@ -229,7 +229,7 @@ async def coletar_cnpj(socio: str, alias: str):
         print(f"[DEBUG] Offices encontrados: {offices}")
 
         for office in offices:
-            office_alias = office.get("alias", "")
+            office_alias = dict(office).get("alias", "Vazio")
             if office_alias:
                 similaridade = checar_similaridade(alias.lower(), office_alias.lower())
                 print(f"[DEBUG] Similaridade: {similaridade} - {office['alias']}")
@@ -259,7 +259,7 @@ async def criar_lista_fria(socio: str, alias: str):
             office_list = []
 
             for office in offices:
-                office_alias = office.get("alias", "")
+                office_alias = dict(office).get("alias", "Vazio")
                 if office_alias is not None:
                     print(office_alias)
                     similaridade = checar_similaridade(alias.lower(), office_alias.lower())
