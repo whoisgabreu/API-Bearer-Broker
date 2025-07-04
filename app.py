@@ -72,13 +72,13 @@ def coletar_cnp_APIj():
     
 @app.route("/analise/lista-fria", methods=["GET"])
 @require_api_key
-def criar_lista_fria():
+def criar_lista_fria_API():
 
     try:
         nome_socio = request.args.get("socio")
         nome_fantasia = request.args.get("alias")
 
-        dados_empresa = asyncio.run(coletar_cnpj(nome_socio, nome_fantasia))
+        dados_empresa = asyncio.run(criar_lista_fria(nome_socio, nome_fantasia))
 
         return jsonify(dados_empresa)
     
