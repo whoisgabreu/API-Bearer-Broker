@@ -169,21 +169,6 @@ class CnpjaCustomAPI:
             all_companies.extend(companies)
         return all_companies
 
-    # async def company_search(self, session, company_id_list: list) -> list:
-    #     tasks = []
-    #     for company_id in company_id_list:
-    #         url = f"https://bff.cnpja.com/company/{company_id['id']}"
-    #         tasks.append(self.fetch(session, url))
-    #     responses = await asyncio.gather(*tasks)
-    #     offices = []
-    #     for resp in responses:
-    #         offices.append({
-    #             "name": resp["name"],
-    #             "alias": resp["offices"][0]["alias"],
-    #             "cnpj": resp["offices"][0]["taxId"],
-    #         })
-    #     return offices
-
     async def company_search(self, session, company_id_list: list) -> list:
         tasks = []
         for company_id in company_id_list:
@@ -261,12 +246,12 @@ async def criar_lista_fria(socio: str, alias: str):
             for office in offices:
                 office_alias = office.get("alias", "")
                 if office_alias:
-                    print(office_alias)
                     similaridade = checar_similaridade(alias.lower(), office_alias.lower())
                     print(f"[DEBUG] Similaridade: {similaridade} - {office_alias} - {alias}")
 
                     if similaridade < 70:
                         office_data = await api.office_search(session, office["cnpj"])
+                        office_data["origem"] = f"Lead {alias} - {socio}"
                         office_list.append(office_data)
 
             if office_list:
