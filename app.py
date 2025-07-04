@@ -4,6 +4,7 @@ from modules.ferramentas_analise import GoogleTransparency
 from modules.ferramentas_analise import GoogleBusiness
 from modules.ferramentas_analise import DuckDuckGo
 from modules.cnpjaAPICustom import coletar_cnpj
+from modules.cnpjaAPICustom import criar_lista_fria
 from modules.cnpja_api import search
 from dotenv import load_dotenv
 import os
@@ -51,6 +52,26 @@ def presenca_online():
 @app.route("/analise/coletar-cnpj", methods=["GET"])
 @require_api_key
 def coletar_cnp_APIj():
+
+    try:
+        nome_socio = request.args.get("socio")
+        nome_fantasia = request.args.get("alias")
+
+        dados_empresa = coletar_cnpj(nome_socio, nome_fantasia)
+
+        return jsonify(dados_empresa)
+    
+    except Exception as e:
+
+        return jsonify(
+            {
+                "erro": f"{e}"
+            }
+        ), 400
+    
+@app.route("/analise/lista-fria", methods=["GET"])
+@require_api_key
+def criar_lista_fria():
 
     try:
         nome_socio = request.args.get("socio")

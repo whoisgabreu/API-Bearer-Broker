@@ -210,10 +210,47 @@ async def coletar_cnpj(socio: str, alias: str):
         print(f"[DEBUG] Offices encontrados: {offices}")
 
         for office in offices:
-            similaridade = checar_similaridade(alias.lower(), office["alias"].lower())
+            similaridade = checar_similaridade(alias.lower(), office.get("alias", "").lower())
             print(f"[DEBUG] Similaridade: {similaridade} - {office['alias']}")
             if similaridade > 80:
                 office_data = await api.office_search(session, office["cnpj"])
                 return office_data
 
         return {"message": "Nenhuma correspondência encontrada"}
+
+async def criar_lista_fria(socio: str, alias: str):
+    api = CnpjaCustomAPI()
+
+    def checar_similaridade(a, b):
+        return fuzz.ratio(a, b)
+
+    async with aiohttp.ClientSession() as session:
+        try:
+            pessoas = await api.search(session, socio)
+            print(f"[DEBUG] Pessoas encontradas: {pessoas}")
+
+            companies = await api.person_search(session, pessoas)
+            print(f"[DEBUG] Empresas encontradas: {companies}")
+
+            offices = await api.company_search(session, companies)
+            print(f"[DEBUG] Offices encontrados: {offices}")
+
+            office_list = []
+
+            for office in offices:
+                office_alias = office.get("alias", "").lower()
+                similaridade = checar_similaridade(alias.lower(), office_alias)
+                print(f"[DEBUG] Similaridade: {similaridade} - {office_alias}")
+
+                if similaridade < 70:
+                    office_data = await api.office_search(session, office["cnpj"])
+                    office_list.append(office_data)
+
+            if office_list:
+                return office_list
+
+            return {"message": "Nenhuma correspondência encontrada"}
+
+        except Exception as e:
+            print(f"[ERRO] Falha na criação da lista fria: {e}")
+            return {"error": str(e)}
