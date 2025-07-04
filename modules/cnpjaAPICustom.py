@@ -231,7 +231,7 @@ async def coletar_cnpj(socio: str, alias: str):
         for office in offices:
             office_alias = office.get("alias", "")
             if office_alias:
-                similaridade = checar_similaridade(alias, office_alias)
+                similaridade = checar_similaridade(alias.lower(), office_alias.lower())
                 print(f"[DEBUG] Similaridade: {similaridade} - {office['alias']}")
                 if similaridade > 80:
                     office_data = await api.office_search(session, office["cnpj"])
@@ -262,7 +262,7 @@ async def criar_lista_fria(socio: str, alias: str):
                 office_alias = office.get("alias", "")
                 if office_alias:
                     print(office_alias)
-                    similaridade = checar_similaridade(alias, office_alias)
+                    similaridade = checar_similaridade(alias.lower(), office_alias.lower())
                     print(f"[DEBUG] Similaridade: {similaridade} - {office_alias} - {alias}")
 
                     if similaridade < 70:

@@ -8,7 +8,7 @@ url = "http://31.97.27.195:5000/analise/lista-fria"
 
 params = {
     "socio": "Atila Lyra",
-    "Alias": "Mavia"
+    "alias": "Mavia"
 }
 
 response = requests.get(url = url, headers = header, params = params)
