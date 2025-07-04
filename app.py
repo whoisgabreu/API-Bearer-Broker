@@ -9,6 +9,7 @@ from modules.cnpja_api import search
 from dotenv import load_dotenv
 import os
 from threading import Lock
+import asyncio
 
 app = Flask(__name__)
 load_dotenv()
@@ -57,7 +58,7 @@ def coletar_cnp_APIj():
         nome_socio = request.args.get("socio")
         nome_fantasia = request.args.get("alias")
 
-        dados_empresa = coletar_cnpj(nome_socio, nome_fantasia)
+        dados_empresa = asyncio.run(coletar_cnpj(nome_socio, nome_fantasia))
 
         return jsonify(dados_empresa)
     
@@ -77,7 +78,7 @@ def criar_lista_fria():
         nome_socio = request.args.get("socio")
         nome_fantasia = request.args.get("alias")
 
-        dados_empresa = coletar_cnpj(nome_socio, nome_fantasia)
+        dados_empresa = asyncio.run(coletar_cnpj(nome_socio, nome_fantasia))
 
         return jsonify(dados_empresa)
     
