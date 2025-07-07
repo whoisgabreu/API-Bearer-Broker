@@ -100,7 +100,7 @@ class MetaAds:
             # Preenche o campo de busca
             input_area = page.query_selector("#js_3")
             if input_area:
-                input_area.fill(business_info["empresa"]["razao_social"])
+                input_area.fill(business_info["empresa"]["nome_fantasia"])
             else:
                 print("Input area não encontrado.")
 
