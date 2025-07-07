@@ -185,7 +185,7 @@ class MetaAds:
             business_info.setdefault("ads", {}).setdefault("meta_ads", {})
             business_info["ads"]["meta_ads"]["presenca_online"] = pres_online
             business_info["ads"]["meta_ads"]["redes_sociais"] = followers_qtt
-            business_info["ads"]["meta_ads"]["qtd_anuncio"] = quant_ads
+            business_info["ads"]["meta_ads"]["qtd_anuncio"] = int(quant_ads.replace("~","").split(" ")[0])
 
             return business_info
 

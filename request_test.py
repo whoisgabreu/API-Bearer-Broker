@@ -10,3 +10,6 @@ header = {
 response = requests.get(url = url, headers = header)
 
 print(response.json())
+
+
+print()
