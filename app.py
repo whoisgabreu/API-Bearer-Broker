@@ -1,11 +1,19 @@
+# Flask
 from flask import Flask, request, jsonify
+
+# Login Broker
 from modules.login_broker import ProjetoBroker
+
+# Ferramentas de Analise
+# from modules.ferramentas_analise import GoogleBusiness # Reativar quando corrigir erros
+# from modules.ferramentas_analise import DuckDuckGo # Reativar quando corrigir erros
 from modules.ferramentas_analise import GoogleTransparency
-from modules.ferramentas_analise import GoogleBusiness
-from modules.ferramentas_analise import DuckDuckGo
+from modules.ferramentas_analise import MetaAds
 from modules.cnpjaAPICustom import coletar_cnpj
 from modules.cnpjaAPICustom import criar_lista_fria
 from modules.cnpja_api import search
+
+# Bibliotecas de suporte
 from dotenv import load_dotenv
 import os
 from threading import Lock
@@ -34,11 +42,12 @@ def presenca_online():
         cnpj = request.args.get("cnpj")
         business_info = search(cnpj = cnpj)
         business_info = GoogleTransparency().analyse(business_info)
+        business_info = MetaAds().analyse(business_info)
         # business_info = GoogleBusiness().analyse(business_info) # Reativar quanto corrigir o problema
-        business_info["paginas_online"] = []
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], ".br"))
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "instagram.com"))
-        business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "facebook.com"))
+        # business_info["paginas_online"] = []
+        # business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], ".br"))
+        # business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "instagram.com"))
+        # business_info["paginas_online"].append(DuckDuckGo().buscar(business_info["empresa"]["nome_fantasia"], "facebook.com"))
 
         return jsonify(business_info)
     

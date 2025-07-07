@@ -66,6 +66,129 @@ class GoogleTransparency:
 
             return business_info
 
+class MetaAds:
+
+    def __init__(self):
+        self.url = 'https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=BR&is_targeted_country=false&media_type=all&search_type=page&view_all_page_id=141453935911808'
+        self.user_agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/115.0.0.0 Safari/537.36"
+
+    def analyse(self, business_info) -> dict:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=False,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                    "--ignore-certificate-errors",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--window-position=0,0",
+                    "--window-size=800,600"
+                ]
+            )
+
+            context = browser.new_context(
+                viewport={"width": 800, "height": 600},
+                user_agent=self.user_agent,
+                ignore_https_errors=True
+            )
+
+            page = context.new_page()
+            page.goto(self.url, timeout=60000)
+
+            sleep(2)
+
+            # Preenche o campo de busca
+            input_area = page.query_selector("#js_3")
+            if input_area:
+                input_area.fill(business_info["empresa"]["razao_social"])
+            else:
+                print("Input area não encontrado.")
+
+            sleep(2)  # Se quiser, depois pode trocar por wait_for_selector
+
+            # Verificar presença do seletor de quantidade de anúncios
+
+            # document.querySelectorAll("ul")[1].querySelectorAll("li")[5].querySelectorAll(".x8t9es0")[2].innerText
+
+            pres_online = page.evaluate("""
+                () => {
+                    return document.querySelectorAll("ul")[1].querySelectorAll("li")[5] ? true : false;
+                }
+            """)
+
+                # //() => {
+                # //    const el = document.querySelectorAll("ul")[1].querySelectorAll("li")[5];
+                # //    const fb = el ? el.querySelectorAll(".x8t9es0")[1].innerText.replace("\xa0", " ").split("·") : "Não possui";
+                # //    const ig = el ? el.querySelectorAll(".x8t9es0")[2].innerText.replace("\xa0", " ").split("·") : "Não possui";
+                # //    return {"facebook": {"pagina":fb[0], "seguidores":fb[1].replace("\n", "").trim()}, "instagram": {"pagina":ig[0].replace("\n", "").trim(), "seguidores": ig[1]}};
+                # //}
+            followers_qtt = page.evaluate("""
+                        () => {
+                            const el = document.querySelectorAll("ul")[1]?.querySelectorAll("li")[5];
+
+                            if (!el) {
+                                return {
+                                    facebook: { pagina: "Não possui", seguidores: "Não possui" },
+                                    instagram: { pagina: "Não possui", seguidores: "Não possui" }
+                                };
+                            }
+
+                            const infos = el.querySelectorAll(".x8t9es0");
+
+                            const fbRaw = infos[1]?.innerText || "Não possui";
+                            const igRaw = infos[2]?.innerText || "Não possui";
+
+                            let fbPagina = "Não possui";
+                            let fbSeguidores = "Não possui";
+
+                            if (fbRaw !== "Não possui") {
+                                const fb = fbRaw.replace(/\\xa0/g, " ").split("·");
+                                fbPagina = fb[0]?.replace(/\\n/g, "").trim() || "Não possui";
+                                fbSeguidores = fb[1]?.replace(/\\n/g, "").replace(",",".").trim() || "Não possui";
+                            }
+
+                            let igPagina = "Não possui";
+                            let igSeguidores = "Não possui";
+
+                            if (igRaw !== "Não possui") {
+                                const ig = igRaw.replace(/\\xa0/g, " ").split("·");
+                                igPagina = ig[0]?.replace(/\\n/g, "").trim() || "Não possui";
+                                igSeguidores = ig[1]?.replace(/\\n/g, "").replace(",",".").trim() || "Não possui";
+                            }
+
+                            return {
+                                facebook: { pagina: fbPagina, seguidores: fbSeguidores },
+                                instagram: { pagina: igPagina, seguidores: igSeguidores }
+                            };
+                        }
+                    """)
+
+            # Clica no primeiro resultado de pesquisa
+            page.evaluate("""
+                    document.querySelectorAll(".x9f619.x1ja2u2z.x78zum5.x1n2onr6.x1r8uery.x1iyjqo2.xs83m0k.xeuugli.x1qughib.x6s0dn4.xozqiw3.x1q0g3np.x1ws5yxj.xw01apr.x4cne27.xifccgj")[1].click()
+            """)
+
+            sleep(2)
+
+            quant_ads = page.evaluate("""
+                () => {
+                    const el = document.querySelectorAll(".x8t9es0.x1uxerd5.xrohxju.x108nfp6.xq9mrsl.x1h4wwuj.x117nqv4.xeuugli")[0].innerText;
+                    return el ? el : "0";
+                }
+            """)
+
+            # print(pres_online,followers_qtt, quant_ads)
+            
+
+            browser.close()
+
+            business_info.setdefault("ads", {}).setdefault("meta_ads", {})
+            business_info["ads"]["meta_ads"]["presenca_online"] = pres_online
+            business_info["ads"]["meta_ads"]["redes_sociais"] = followers_qtt
+            business_info["ads"]["meta_ads"]["qtd_anuncio"] = quant_ads
+
+            return business_info
+
 class GoogleBusiness: # NÃO FUNCIONA NA VPS POR QUESTÕES DE CAPTCHA
 
     def __init__(self):
