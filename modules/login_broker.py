@@ -13,6 +13,14 @@ class ProjetoBroker:
 
     def __init__(self):
         base_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data")
+        
+        self.base_default = os.path.join(base_dir, "Default")
+
+        # Cria uma pasta temporária ao lado da original
+        temp_default_name = f"Default_Temp_{uuid.uuid4().hex[:8]}"
+        self.temp_default = os.path.join(base_dir, temp_default_name)
+        shutil.copytree(self.base_default, self.temp_default, dirs_exist_ok=True)
+        shutil.rmtree(self.temp_default, ignore_errors=True)
 
         # Configuração do Selenium
         self.options = webdriver.ChromeOptions()
@@ -21,9 +29,14 @@ class ProjetoBroker:
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--disable-notifications")
         self.options.add_argument("--window-size=800,600")
+        # self.options.add_argument(f'--user-data-dir={os.path.dirname(self.temp_default)}')
+        # self.options.add_argument(f'--profile-directory={os.path.basename(self.temp_default)}')  # Isso garante que use a nova Default_Temp_X
 
         self.options.add_argument(f'--user-data-dir={base_dir}')
         self.options.add_argument(f'--profile-directory=Default')  # Isso garante que use a nova Default_Temp_X
+
+        # print(os.path.dirname(self.temp_default))
+        # print(os.path.basename(self.temp_default))
 
     def iniciar_driver(self):
         driver = webdriver.Chrome(service=Service(), options=self.options)
