@@ -20,7 +20,6 @@ class ProjetoBroker:
         temp_default_name = f"Default_Temp_{uuid.uuid4().hex[:8]}"
         self.temp_default = os.path.join(base_dir, temp_default_name)
         shutil.copytree(self.base_default, self.temp_default, dirs_exist_ok=True)
-        shutil.rmtree(self.temp_default, ignore_errors=True)
 
         # Configuração do Selenium
         self.options = webdriver.ChromeOptions()
@@ -100,5 +99,6 @@ class ProjetoBroker:
             cookies = driver.get_cookies()
             print(cookies)
             driver.quit()
+            shutil.rmtree(self.temp_default, ignore_errors=True)
             if cookies:
                 return f"Bearer {cookies[0]['value']}"
