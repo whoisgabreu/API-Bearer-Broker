@@ -12,7 +12,7 @@ from time import sleep
 class ProjetoBroker:
 
     def __init__(self):
-        base_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data", "Default")
+        base_dir = os.path.join(os.path.dirname(__file__), "chrome_user_data")
 
 
         # Configuração do Selenium
@@ -24,7 +24,7 @@ class ProjetoBroker:
         self.options.add_argument("--window-size=800,600")
 
         self.options.add_argument(f'--user-data-dir={base_dir}')
-        # self.options.add_argument(f'--profile-directory=Default')  # Isso garante que use a Default
+        self.options.add_argument(f'--profile-directory=Default')  # Isso garante que use a Default
 
     def iniciar_driver(self):
         driver = webdriver.Chrome(service=Service(), options=self.options)
