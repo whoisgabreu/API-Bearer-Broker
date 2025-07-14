@@ -26,7 +26,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
     if _ == "buy":
         async with aiohttp.ClientSession() as session:
-            async with session.get("https://n8n.v4lisboatech.com.br/webhook/telegram-test") as resp:
+            async with session.post("https://n8n.v4lisboatech.com.br/webhook/telegram/button-pressed",json = {"teste":message_id}) as resp:
                 # opcional: verificar resp.status, ler resp.text() etc
                 pass
         await query.edit_message_text(
