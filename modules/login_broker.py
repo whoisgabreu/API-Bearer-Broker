@@ -22,7 +22,7 @@ class ProjetoBroker:
         self.options.add_argument("--disable-blink-features=AutomationControlled")
         self.options.add_argument("--disable-notifications")
         self.options.add_argument("--window-size=800,600")
-
+        self.options.binary_location = "/usr/bin/google-chrome" # Corrigir erro na VPS
         self.options.add_argument(f'--user-data-dir={base_dir}')
         self.options.add_argument(f'--profile-directory=Default')  # Isso garante que use a Default
 
