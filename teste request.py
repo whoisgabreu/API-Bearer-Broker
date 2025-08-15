@@ -25,11 +25,10 @@ payload = {
 
 response = requests.post(url=url, headers = header,json = payload)
 
-print(response.json())
-
-# Caminho do arquivo PDF de saída
-output_path = "saida.pdf"
-
-# Converter base64 -> arquivo PDF
-with open(output_path, "wb") as f:
-    f.write(base64.b64decode(response.json()["pdf_base64"]))
+# Salva o PDF de resposta
+if response.status_code == 200:
+    with open("saida.pdf", "wb") as f:
+        f.write(response.content)
+    print("PDF salvo como 'saida.pdf'")
+else:
+    print("Erro:", response.status_code, response.text)

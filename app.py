@@ -91,7 +91,7 @@ def convert_docx_endpoint():
         return jsonify({"error": "Campo 'file_base64' não encontrado"}), 400
 
     try:
-        pdf_bytes = convert_docx_base64_to_pdf(data['docx_base64'])
+        pdf_bytes = convert_docx_base64_to_pdf(data['file_base64'])
 
         return Response(
             pdf_bytes,
