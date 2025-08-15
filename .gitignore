@@ -6,4 +6,6 @@ modules/*
 !modules/cnpja_api.py
 !modules/cnpjaAPICustom.py
 !modules/ferramentas_analise.py
+!modules/pdf_binario.py
+!modules/N8N_WebHook.py
 request_test.py
