@@ -1,0 +1,76 @@
+Documentação API 
+
+URL BASE: api.v4lisboatech.com.br
+
+Para realizar solicitações na API é necessário API_KEY
+
+API_KEY: ccf9d74a30dc58035c50d1d0cb19dd20
+
+header = {
+            X-API-KEY: ccf9d74a30dc58035c50d1d0cb19dd20
+        }
+
+Endpoints:
+
+---------------------------------------------------------------------------------------
+
+/analise/lead
+
+COMO USAR:
+
+Método GET
+
+url = api.v4lisboatech.com.br/analise/lead
+
+parms = {
+    "socio": <nome_do_socio>,
+    "empresa": <nome_da_empresa>
+}
+
+ou
+
+api.v4lisboatech.com.br/analise/lead?socio=<nome_do_socio>&empresa=<nome_da_empresa>
+
+O que faz?
+
+- Procura informações sobre SOCIO e EMPRESA informados e a presença online
+
+Retorna:
+
+- Dicionário JSON contendo os dados coletados
+
+---------------------------------------------------------------------------------------
+
+/broker/extrair_bearer
+
+Método GET
+
+url = api.v4lisboatech.com.br/broker/extrair_bearer
+
+O que faz?
+
+- Coleta o BEARER de Autenticação da pagina do V4 Broker.
+
+Retorna:
+
+- O Bearer de Autenticação
+
+---------------------------------------------------------------------------------------
+
+/convert/docx
+
+Método POST
+
+url = api.v4lisboatech.com.br/convert/docx
+
+body = {
+    "file_base64" = <string_binária_do_DOCX>
+}
+
+O que faz?
+
+- Converte um DOCX em PDF
+
+Retorna:
+
+- Retorna a string bas64 do pdf

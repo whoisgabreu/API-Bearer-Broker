@@ -38,7 +38,7 @@ class GoogleTransparency:
             # Preenche o campo de busca
             input_area = page.query_selector(".input-area")
             if input_area:
-                input_area.fill(business_info["empresa"])
+                input_area.fill(business_info["empresa"]["razao_social"])
             else:
                 print("Input area não encontrado.")
 
@@ -51,18 +51,18 @@ class GoogleTransparency:
                 }
             """)
 
-            # quant_ads = page.evaluate("""
-            #     () => {
-            #         const el = document.querySelector(".ads-count-legacy");
-            #         return el ? el.textContent.replace("~", "").split(" ")[0] : "0";
-            #     }
-            # """)
+            quant_ads = page.evaluate("""
+                () => {
+                    const el = document.querySelector(".ads-count-legacy");
+                    return el ? el.textContent.replace("~", "").split(" ")[0] : "0";
+                }
+            """)
 
             browser.close()
 
             business_info.setdefault("ads", {}).setdefault("google_transparency", {})
             business_info["ads"]["google_transparency"]["presenca_online"] = pres_online
-            # business_info["ads"]["google_transparency"]["qtd_anuncio"] = int(quant_ads)
+            business_info["ads"]["google_transparency"]["qtd_anuncio"] = int(quant_ads)
 
             return business_info
 
@@ -100,7 +100,7 @@ class MetaAds:
             # Preenche o campo de busca
             input_area = page.query_selector("#js_3")
             if input_area:
-                input_area.fill(business_info["empresa"])
+                input_area.fill(business_info["empresa"]["nome_fantasia"])
             else:
                 print("Input area não encontrado.")
 
@@ -164,22 +164,18 @@ class MetaAds:
                     """)
 
             # Clica no primeiro resultado de pesquisa
-            try:
-                page.evaluate("""
-                        document.querySelectorAll(".x9f619.x1ja2u2z.x78zum5.x1n2onr6.x1r8uery.x1iyjqo2.xs83m0k.xeuugli.x1qughib.x6s0dn4.xozqiw3.x1q0g3np.x1ws5yxj.xw01apr.x4cne27.xifccgj")[1].click()
-                """)
-            except:
-                pass
-        
+            page.evaluate("""
+                    document.querySelectorAll(".x9f619.x1ja2u2z.x78zum5.x1n2onr6.x1r8uery.x1iyjqo2.xs83m0k.xeuugli.x1qughib.x6s0dn4.xozqiw3.x1q0g3np.x1ws5yxj.xw01apr.x4cne27.xifccgj")[1].click()
+            """)
 
             sleep(2)
 
-            # quant_ads = page.evaluate("""
-            #     () => {
-            #         const el = document.querySelectorAll(".x8t9es0.x1uxerd5.xrohxju.x108nfp6.xq9mrsl.x1h4wwuj.x117nqv4.xeuugli")[0].innerText;
-            #         return el ? el : "0";
-            #     }
-            # """)
+            quant_ads = page.evaluate("""
+                () => {
+                    const el = document.querySelectorAll(".x8t9es0.x1uxerd5.xrohxju.x108nfp6.xq9mrsl.x1h4wwuj.x117nqv4.xeuugli")[0].innerText;
+                    return el ? el : "0";
+                }
+            """)
 
             # print(pres_online,followers_qtt, quant_ads)
             
@@ -189,7 +185,7 @@ class MetaAds:
             business_info.setdefault("ads", {}).setdefault("meta_ads", {})
             business_info["ads"]["meta_ads"]["presenca_online"] = pres_online
             business_info["ads"]["meta_ads"]["redes_sociais"] = followers_qtt
-            # business_info["ads"]["meta_ads"]["qtd_anuncio"] = int(quant_ads.replace("~","").split(" ")[0])
+            business_info["ads"]["meta_ads"]["qtd_anuncio"] = int(quant_ads.replace("~","").split(" ")[0])
 
             return business_info
 
