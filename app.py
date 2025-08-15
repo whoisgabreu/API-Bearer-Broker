@@ -1,5 +1,5 @@
 # Flask
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, Response
 
 # Login Broker
 from modules.login_broker import ProjetoBroker
@@ -91,8 +91,16 @@ def convert_docx_endpoint():
         return jsonify({"error": "Campo 'file_base64' não encontrado"}), 400
 
     try:
-        pdf_b64 = convert_docx_base64_to_pdf(data['file_base64'])
-        return jsonify({"pdf_base64": pdf_b64})
+        pdf_bytes = convert_docx_base64_to_pdf(data['docx_base64'])
+
+        return Response(
+            pdf_bytes,
+            mimetype='application/pdf',
+            headers={
+                "Content-Disposition": "inline; filename=arquivo.pdf"
+            }
+        )
+        # return jsonify({"pdf_base64": pdf_b64})
     except ValueError as e:
         return jsonify({"error": str(e)}), 400
     except subprocess.CalledProcessError as e:
