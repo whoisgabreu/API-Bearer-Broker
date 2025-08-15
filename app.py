@@ -38,6 +38,7 @@ def require_api_key(func):
     wrapper.__name__ = func.__name__
     return wrapper
 
+
 @app.route("/analise/lead", methods=["GET"])
 # /analise/lead?socio=NOME&alias=NOME
 @require_api_key
