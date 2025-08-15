@@ -101,13 +101,14 @@ def convert_docx_endpoint():
             }
         )
         # return jsonify({"pdf_base64": pdf_b64})
-    except ValueError as e:
-        return jsonify({"error": str(e)}), 400
-    except subprocess.CalledProcessError as e:
-        return jsonify({"error": "Falha na conversão com LibreOffice", "details": str(e)}), 500
-    except Exception as e:
-        return jsonify({"error": "Erro geral", "details": str(e)}), 500
-
+    # except ValueError as e:
+    #     return jsonify({"error": str(e)}), 400
+    # except subprocess.CalledProcessError as e:
+    #     return jsonify({"error": "Falha na conversão com LibreOffice", "details": str(e)}), 500
+    # except Exception as e:
+    #     return jsonify({"error": "Erro geral", "details": str(e)}), 500
+    except:
+        pass
 
 # if __name__ == "__main__":
 #     app.run(host="0.0.0.0", port=5000, debug = True)
