@@ -8,4 +8,5 @@ modules/*
 !modules/ferramentas_analise.py
 !modules/pdf_binario.py
 !modules/N8N_WebHook.py
+!modules/modelo
 request_test.py
