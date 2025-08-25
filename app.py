@@ -8,7 +8,6 @@ from modules.login_broker import ProjetoBroker
 from modules.ferramentas_analise import GoogleTransparency
 from modules.ferramentas_analise import MetaAds
 from modules.N8N_WebHook import AIAgentCNPJ
-from modules.pdf_binario import convert_docx_base64_to_pdf
 # from modules.ferramentas_analise import GoogleBusiness # Reativar quando corrigir erros
 # from modules.ferramentas_analise import DuckDuckGo # Reativar quando corrigir erros
 
@@ -16,12 +15,19 @@ from modules.pdf_binario import convert_docx_base64_to_pdf
 from modules.pdf_binario import convert_docx_base64_to_pdf
 from flask import send_file
 
+# Carregar encoder e modelo
+import joblib
+import pandas as pd
+
 # Bibliotecas de suporte
 from dotenv import load_dotenv
 import os
 import subprocess
 from threading import Lock
 import asyncio
+
+modelo = joblib.load("modules/modelo/modelo_classificador_com_termos_do_forms - V2.joblib")
+encoder = joblib.load("modules/modelo/encoder_classificador_com_termos_do_forms.joblib")
 
 app = Flask(__name__)
 load_dotenv()
@@ -100,15 +106,50 @@ def convert_docx_endpoint():
                 "Content-Disposition": "inline; filename=arquivo.pdf"
             }
         )
-        # return jsonify({"pdf_base64": pdf_b64})
-    # except ValueError as e:
-    #     return jsonify({"error": str(e)}), 400
-    # except subprocess.CalledProcessError as e:
-    #     return jsonify({"error": "Falha na conversão com LibreOffice", "details": str(e)}), 500
-    # except Exception as e:
-    #     return jsonify({"error": "Erro geral", "details": str(e)}), 500
     except:
         pass
+
+
+# Classificação por ML
+@app.route("/ml/lead", methods = ["POST"])
+# @require_api_key
+def classificacao_ml():
+    # Verifica se o corpo da requisição é JSON
+    if not request.is_json:
+        return jsonify({'erro': 'Requisição precisa ser JSON'}), 400
+
+    # Pega o JSON da requisição
+    dados = request.get_json()
+
+
+    # Campos esperados
+    campos_esperados = [
+        "faturamento",
+        "cargo",
+        "nivel_urgencia",
+        "tem_site",
+        "tem_anuncio",
+        "segmento"
+    ]
+
+    # Verifica se todos os campos estão presentes
+    for campo in campos_esperados:
+        if campo not in dados:
+            return jsonify({'erro': f'Campo "{campo}" ausente'}), 400
+
+
+    dado = encoder.transform(pd.DataFrame([dados]))
+    predicao = modelo.predict(dado)
+    certeza = max(modelo.predict_proba(dado)[0])
+
+
+    # Aqui você pode fazer o que quiser com os dados, por exemplo:
+    return jsonify({
+        'mensagem': 'Dados recebidos com sucesso',
+        'decisao': predicao.tolist()[0],
+        'certeza': f"{float(certeza)*100}%"
+        }), 200
+
 
 # if __name__ == "__main__":
 #     app.run(host="0.0.0.0", port=5000, debug = True)

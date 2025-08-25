@@ -75,7 +75,7 @@ class MetaAds:
     def analyse(self, business_info) -> dict:
         with sync_playwright() as p:
             browser = p.chromium.launch(
-                headless=False,
+                headless=True,
                 args=[
                     "--disable-blink-features=AutomationControlled",
                     "--ignore-certificate-errors",
