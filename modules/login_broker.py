@@ -9,6 +9,15 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.service import Service
 from time import sleep
 
+from dotenv import load_dotenv
+load_dotenv()
+
+MANUTENCAO = os.getenv("MANUTENCAO")
+
+EMAIL = os.getenv("EMAIL")
+SENHA = os.getenv("SENHA")
+
+
 class ProjetoBroker:
 
     def __init__(self):
@@ -46,8 +55,8 @@ class ProjetoBroker:
         try:
             url = 'https://lead.brokers.mktlab.app/'
             driver.get(url)
-            sleep(3)
-            # breakpoint()
+            if MANUTENCAO:
+                breakpoint()
             try:
                 if driver.current_url == url:
 
@@ -67,11 +76,11 @@ class ProjetoBroker:
                     
                     else:
 
-                        driver.find_element(By.TAG_NAME, "input").send_keys("martins.gabriel@v4company.com")
+                        driver.find_element(By.TAG_NAME, "input").send_keys(EMAIL)
                         sleep(1)
                         driver.find_elements(By.TAG_NAME, "button")[3].click()
                         sleep(1)
-                        driver.find_element(By.TAG_NAME, "input").send_keys("987456123G@briel")
+                        driver.find_element(By.TAG_NAME, "input").send_keys(SENHA)
                         sleep(1)
                         driver.find_elements(By.TAG_NAME, "button")[3].click()
                         sleep(1)

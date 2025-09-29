@@ -114,7 +114,7 @@ def convert_docx_endpoint():
 
 # HTML > PDF
 @app.route("/convert/html", methods=["POST"])
-# @require_api_key
+@require_api_key
 def convert_html_endpoint():
     data = request.get_json()
 
@@ -185,5 +185,5 @@ def classificacao_ml():
         }), 200
 
 
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug = True)
+# if __name__ == "__main__":
+#     app.run(host="0.0.0.0", port=5000, debug = True)
