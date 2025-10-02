@@ -15,8 +15,10 @@ from modules.N8N_WebHook import AIAgentCNPJ
 from modules.pdf_binario import convert_docx_base64_to_pdf
 
 # HTML > PDF
-import xhtml2pdf.pisa as pisa
-import io
+# import xhtml2pdf.pisa as pisa
+# import io
+from weasyprint import HTML
+
 
 # Carregar encoder e modelo
 import joblib
@@ -113,35 +115,52 @@ def convert_docx_endpoint():
         pass
 
 # HTML > PDF
+# @app.route("/convert/html", methods=["POST"])
+# @require_api_key
+# def convert_html_endpoint():
+#     data = request.get_json()
+
+#     if not data or 'html_content' not in data:
+#         return jsonify({"error": "Campo 'html_content' não encontrado"}), 400
+
+#     try:
+#         html_content = data['html_content']
+
+#         # Converte HTML para PDF em memória
+#         pdf_io = io.BytesIO()
+#         pisa_status = pisa.CreatePDF(html_content, dest=pdf_io)
+
+#         if pisa_status.err:
+#             return jsonify({"error": "Erro ao converter HTML para PDF"}), 500
+
+#         pdf_bytes = pdf_io.getvalue()
+
+#         return Response(
+#             pdf_bytes,
+#             mimetype='application/pdf',
+#             headers={
+#                 "Content-Disposition": "inline; filename=arquivo.pdf"
+#             }
+#         )
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
 @app.route("/convert/html", methods=["POST"])
 @require_api_key
 def convert_html_endpoint():
     data = request.get_json()
-
     if not data or 'html_content' not in data:
         return jsonify({"error": "Campo 'html_content' não encontrado"}), 400
 
-    try:
-        html_content = data['html_content']
+    html_content = data['html_content']
 
-        # Converte HTML para PDF em memória
-        pdf_io = io.BytesIO()
-        pisa_status = pisa.CreatePDF(html_content, dest=pdf_io)
+    pdf_bytes = HTML(string=html_content).write_pdf()
 
-        if pisa_status.err:
-            return jsonify({"error": "Erro ao converter HTML para PDF"}), 500
-
-        pdf_bytes = pdf_io.getvalue()
-
-        return Response(
-            pdf_bytes,
-            mimetype='application/pdf',
-            headers={
-                "Content-Disposition": "inline; filename=arquivo.pdf"
-            }
-        )
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+    return Response(
+        pdf_bytes,
+        mimetype='application/pdf',
+        headers={"Content-Disposition": "inline; filename=arquivo.pdf"}
+    )
 
 
 # Classificação por ML
@@ -185,5 +204,5 @@ def classificacao_ml():
         }), 200
 
 
-# if __name__ == "__main__":
-#     app.run(host="0.0.0.0", port=5000, debug = True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug = True)
