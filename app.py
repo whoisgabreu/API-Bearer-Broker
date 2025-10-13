@@ -79,24 +79,28 @@ def presenca_online():
         ), 400
 
 # ------------------------ TEMPORÁRIO ------------------
-@app.route("/analise/lead2", methods=["GET"])
-# /analise/lead?socio=NOME&alias=NOME
+@app.route("/analise/lead2", methods=["POST"])
 @require_api_key
 def presenca_online2():
-
     try:
+        # Obtém o dicionário do corpo da requisição JSON
+        business_info = request.get_json()
+
+        # Verifique se o dicionário foi passado corretamente
+        if not business_info:
+            return jsonify({"erro": "O dicionário 'business_info' não foi fornecido ou é inválido."}), 400
+
+        # Aqui o processo de análise pode ser feito (substitua por sua lógica)
         business_info = GoogleTransparency().analyse(business_info)
         business_info = MetaAds().analyse(business_info)
 
+        # Retorna o resultado em formato JSON
         return jsonify(business_info)
-    
-    except Exception as e:
 
-        return jsonify(
-            {
-                "erro": f"{e}"
-            }
-        ), 400
+    except Exception as e:
+        return jsonify({
+            "erro": f"{e}"
+        }), 400
 # ---------------------------------------------------------
 
 
