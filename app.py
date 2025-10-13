@@ -17,6 +17,7 @@ from modules.pdf_binario import convert_docx_base64_to_pdf
 # HTML > PDF
 # import xhtml2pdf.pisa as pisa
 # import io
+import re
 from weasyprint import HTML
 
 
@@ -76,6 +77,27 @@ def presenca_online():
                 "erro": f"{e}"
             }
         ), 400
+
+# ------------------------ TEMPORÁRIO ------------------
+@app.route("/analise/lead2", methods=["GET"])
+# /analise/lead?socio=NOME&alias=NOME
+@require_api_key
+def presenca_online2():
+
+    try:
+        business_info = GoogleTransparency().analyse(business_info)
+        business_info = MetaAds().analyse(business_info)
+
+        return jsonify(business_info)
+    
+    except Exception as e:
+
+        return jsonify(
+            {
+                "erro": f"{e}"
+            }
+        ), 400
+# ---------------------------------------------------------
 
 
 @app.route("/broker/extrair_bearer", methods=["GET"])
@@ -152,7 +174,27 @@ def convert_html_endpoint():
     if not data or 'html_content' not in data:
         return jsonify({"error": "Campo 'html_content' não encontrado"}), 400
 
+    css = """
+        @page {
+            size: Letter;
+            margin: 5mm;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            page-break-inside: avoid;
+            transform: scale(0.96);
+            transform-origin: top left;
+        }
+    """
+
     html_content = data['html_content']
+
+    # html_content = re.sub(r"(<style>)", r"\1\n{}".format(css), html_content)
 
     pdf_bytes = HTML(string=html_content).write_pdf()
 
