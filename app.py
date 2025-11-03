@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, Response
 
 # Login Broker
 from modules.login_broker import ProjetoBroker
+from modules.bearer_broker import hops_bearer
 
 # Ferramentas de Analise
 from modules.ferramentas_analise import GoogleTransparency
@@ -114,7 +115,15 @@ def extrair_bearer():
         except Exception as e:
             return jsonify({"erro": str(e)}), 400
 
-
+@app.route("/hops/extrair_bearer", methods=["GET"])
+@require_api_key
+def hops_extrair_bearer():
+    with selenium_lock:
+        try:
+            bearer = hops_bearer()
+            return jsonify({"broker_bearer": bearer})
+        except Exception as e:
+            return jsonify({"erro": str(e)}), 400
 
 ### Conversor de Documentos
 
