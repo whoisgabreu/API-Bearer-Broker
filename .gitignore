@@ -3,7 +3,7 @@ venv
 .venv
 modules/*
 !modules/login_broker.py
-!modules/bearer_broker.py
+!modules/get_bearer.py
 !modules/cnpja_api.py
 !modules/cnpjaAPICustom.py
 !modules/ferramentas_analise.py
