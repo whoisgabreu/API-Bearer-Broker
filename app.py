@@ -1,9 +1,9 @@
 # Flask
 from flask import Flask, request, jsonify, Response
 
-# Login Broker
-from modules.login_broker import ProjetoBroker
-from modules.bearer_broker import hops_bearer
+# Coletores de Bearer
+from modules.get_bearer import hops_bearer
+from modules.get_bearer import broker_bearer
 
 # Ferramentas de Analise
 from modules.ferramentas_analise import GoogleTransparency
@@ -110,7 +110,7 @@ def presenca_online2():
 def extrair_bearer():
     with selenium_lock:
         try:
-            bearer = ProjetoBroker().extrair_bearer()
+            bearer = broker_bearer()
             return jsonify({"broker_bearer": bearer})
         except Exception as e:
             return jsonify({"erro": str(e)}), 400
@@ -121,7 +121,7 @@ def hops_extrair_bearer():
     with selenium_lock:
         try:
             bearer = hops_bearer()
-            return jsonify({"broker_bearer": bearer})
+            return jsonify({"hops_bearer": bearer})
         except Exception as e:
             return jsonify({"erro": str(e)}), 400
 
